@@ -184,8 +184,8 @@ document.getElementById("login-form").addEventListener("submit", async function(
 
     const data = await response.json();
 
-    localStorage.setItem("token", data.access_token);
-    localStorage.setItem("username", username);
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("username", data.username);
 
     // Redirect based on role (if backend sends role)
     if (data.role === "admin") {
