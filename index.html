@@ -318,6 +318,30 @@
   }
   .accent-card-quote em { color: var(--rust); }
   .accent-card-meta { font-size: .78rem; color: var(--muted); }
+  .top-nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+/* Push profile link to right */
+.top-nav > a[href="frofile.html"]{
+  margin-left:auto;
+  font-size:.82rem;
+  color:var(--muted);
+  text-decoration:none;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:.32rem .9rem;
+  transition:all .2s ease;
+}
+
+/* Hover effect */
+.top-nav > a[href="frofile.html"]:hover{
+  border-color:var(--rust);
+  color:var(--rust);
+}
 
   /* ════════════════════════════════════════
      FLASH MESSAGES
@@ -405,10 +429,13 @@
     <a href="index.html" class="nav-logo">
       <span class="nav-logo-dot"></span>LearnPath<span class="nav-logo-dot"></span>
     </a>
+   
+     <a href="frofile.html">My Profile</a> 
     <div class="nav-links">
      
     </div>
   </nav>
+  
 
 
   <!-- ══ HERO ═════════════════════════════════════ -->
