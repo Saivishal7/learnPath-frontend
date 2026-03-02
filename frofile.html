@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Profile – LearnPath</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<style>
+:root{
+--ink:#0f0e0c;
+--cream:#f5f0e8;
+--cream-dark:#ede8df;
+--gold:#c8973a;
+--gold-light:#e8c97a;
+--rust:#c05a2a;
+--sage:#4a6741;
+--card:#faf7f2;
+--border:#d6cfc2;
+--border-soft:#e4ddd3;
+--muted:#7a7063;
+--faint:#9e958a;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+background:var(--cream);
+color:var(--ink);
+font-family:'DM Sans',sans-serif;
+min-height:100vh;
+}
+
+h1,h2,h3{font-family:'Fraunces',serif}
+
+.layout{display:flex;min-height:100vh}
+
+.sidebar{
+width:240px;
+background:var(--card);
+border-right:1px solid var(--border-soft);
+padding:2rem 1.5rem;
+}
+
+.sidebar h2{
+font-size:1rem;
+letter-spacing:.08em;
+text-transform:uppercase;
+color:var(--gold);
+margin-bottom:2rem;
+}
+
+.sidebar a{
+display:block;
+padding:.6rem .9rem;
+border-radius:12px;
+text-decoration:none;
+color:var(--muted);
+font-size:.85rem;
+margin-bottom:.4rem;
+border:1px solid transparent;
+}
+
+.sidebar a:hover{border-color:var(--rust);color:var(--rust)}
+.sidebar .active{background:var(--gold-light);color:var(--ink)}
+
+.main{flex:1;display:flex;flex-direction:column}
+
+.header{
+padding:1.2rem 2rem;
+border-bottom:1px solid var(--border-soft);
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.header small{color:var(--faint)}
+
+.container{
+padding:2rem;
+max-width:1200px;
+margin:auto;
+width:100%;
+display:flex;
+flex-direction:column;
+gap:2rem;
+}
+
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:20px;
+padding:1.8rem 2rem;
+box-shadow:0 10px 30px rgba(15,14,12,.08);
+}
+
+.badge{
+display:inline-block;
+padding:.35rem .9rem;
+font-size:.7rem;
+letter-spacing:.08em;
+text-transform:uppercase;
+border-radius:20px;
+background:rgba(200,151,58,.08);
+border:1px solid rgba(200,151,58,.3);
+color:var(--gold);
+margin-left:.5rem;
+}
+
+.grid{display:grid;gap:1.5rem}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+
+.stat{
+border:1px solid var(--border-soft);
+border-radius:14px;
+padding:1rem;
+text-align:center;
+}
+
+.stat span{font-size:.75rem;color:var(--faint)}
+.stat strong{display:block;font-size:1.4rem;margin-top:.4rem}
+
+.progress-bar{
+height:8px;
+background:var(--border-soft);
+border-radius:20px;
+overflow:hidden;
+margin-top:.7rem;
+}
+
+.progress-fill{
+height:100%;
+background:linear-gradient(90deg,var(--gold),var(--rust));
+width:0%;
+transition:width 1s ease;
+}
+
+button{
+padding:.6rem 1.2rem;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-family:'Fraunces',serif;
+}
+
+.btn-primary{background:var(--ink);color:var(--cream)}
+.btn-primary:hover{background:#2a2520}
+
+select,input{
+padding:.6rem .8rem;
+border-radius:10px;
+border:1px solid var(--border);
+font-family:'DM Sans',sans-serif;
+}
+
+.chat-btn{
+position:fixed;
+bottom:30px;
+right:30px;
+width:60px;
+height:60px;
+border-radius:50%;
+background:var(--gold);
+color:white;
+font-size:1.4rem;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+align-items:center;
+justify-content:center;
+}
+
+.modal-content{
+background:var(--card);
+padding:2rem;
+border-radius:20px;
+width:100%;
+max-width:500px;
+}
+
+.toast{
+position:fixed;
+top:20px;
+right:20px;
+background:var(--gold-light);
+color:var(--ink);
+padding:.8rem 1.2rem;
+border-radius:12px;
+border:1px solid var(--gold);
+display:none;
+}
+
+@media(max-width:900px){.sidebar{display:none}}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+<h2>LearnPath</h2>
+<a href="index.html">Dashboard</a>
+<a href="profile.html" class="active">Profile</a>
+<a href="progress.html">Progress</a>
+<a href="recommendation.html">Recommendations</a>
+</aside>
+
+<div class="main">
+
+<div class="header">
+<h1>Student Profile</h1>
+<small id="last-login"></small>
+</div>
+
+<div class="container">
+
+<div class="card">
+<h2 id="student-name"></h2>
+<p id="student-meta" style="margin:.6rem 0;color:var(--muted)"></p>
+<span class="badge">AI Optimized</span>
+<button class="btn-primary" style="float:right" onclick="toggleEdit()">Edit Profile</button>
+<div id="edit-section" style="display:none;margin-top:1rem">
+<input id="edit-name" placeholder="Name"/>
+<input id="edit-grade" placeholder="Grade"/>
+<input id="edit-goal" placeholder="Learning Goal"/>
+<input id="edit-hours" placeholder="Weekly Hours"/>
+<button class="btn-primary" onclick="updateProfile()">Save</button>
+</div>
+</div>
+
+<div class="card">
+<h2>Academic Overview</h2>
+<div class="grid grid-4">
+<div class="stat"><span>GPA</span><strong id="gpa">—</strong></div>
+<div class="stat"><span>Attendance %</span><strong id="attendance-overall">—</strong></div>
+<div class="stat"><span>Assignments</span><strong id="assignment-rate">—</strong></div>
+<div class="stat"><span>Quiz Accuracy</span><strong id="quiz-rate">—</strong></div>
+</div>
+</div>
+
+<div>
+<h2 style="margin-bottom:1rem">Active Courses</h2>
+<select id="sort-courses" onchange="loadCourses()" style="margin-bottom:1rem">
+<option value="priority">Sort by Priority</option>
+<option value="difficulty">Sort by Difficulty</option>
+<option value="progress">Sort by Progress</option>
+</select>
+<div id="courses" class="grid grid-2"></div>
+</div>
+
+<div class="card">
+<h2>Attendance Tracker</h2>
+<div id="attendance-list" class="grid grid-2"></div>
+</div>
+
+<div class="card">
+<h2>Upcoming Academic Tasks</h2>
+<div id="tasks" class="grid grid-2"></div>
+</div>
+
+<div>
+<h2 style="margin-bottom:1rem">AI Recommendations</h2>
+<div id="recommendations" class="grid grid-2"></div>
+</div>
+
+<div class="card">
+<h2>Adjust Learning Preferences</h2>
+<div style="display:flex;gap:1rem;flex-wrap:wrap">
+<select id="learning-style">
+<option>Visual</option>
+<option>Auditory</option>
+<option>Reading</option>
+<option>Kinesthetic</option>
+</select>
+<select id="intensity">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+<input id="weekly-target" placeholder="Weekly Hours"/>
+<button class="btn-primary" onclick="updatePreferences()">Update</button>
+</div>
+<p id="feedback-msg" style="margin-top:1rem;color:var(--sage)"></p>
+</div>
+
+<div class="card">
+<h3>Ethical AI & Privacy</h3>
+<p style="margin-top:.6rem;color:var(--muted)">
+Data encrypted · GDPR-aware architecture · Bias-mitigated scoring · Secure JWT authentication.
+</p>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="chat-btn" onclick="toggleChat()">💬</div>
+
+<div id="chat-modal" class="modal">
+<div class="modal-content">
+<h3>AI Assistant</h3>
+<div id="chat-history" style="max-height:200px;overflow:auto;margin-bottom:1rem"></div>
+<input id="chat-input" type="text" placeholder="Ask your doubt..." style="width:100%;margin-bottom:1rem"/>
+<button class="btn-primary" onclick="sendChat()">Send</button>
+<button onclick="toggleChat()">Close</button>
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const BASE_URL="https://learnpath-backend-esqg.onrender.com";
+const token=localStorage.getItem("token");
+if(!token){window.location.href="login.html";}
+
+async function api(endpoint,options={}){
+const res=await fetch(BASE_URL+endpoint,{
+...options,
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer "+token
+}
+});
+if(res.status===401){localStorage.removeItem("token");window.location.href="login.html";}
+return res.json();
+}
+
+function showToast(msg){
+const t=document.getElementById("toast");
+t.textContent=msg;
+t.style.display="block";
+setTimeout(()=>t.style.display="none",3000);
+}
+
+async function loadProfile(){
+const p=await api("/api/profile");
+document.getElementById("student-name").textContent=p.name;
+document.getElementById("student-meta").textContent=
+`${p.grade} • ${p.learning_goal} • ${p.learning_style} • ${p.performance_band}`;
+document.getElementById("last-login").textContent="Last login: "+p.last_login;
+document.getElementById("gpa").textContent=p.gpa||"—";
+}
+
+async function loadCourses(){
+let data=await api("/api/courses");
+const sort=document.getElementById("sort-courses").value;
+data.sort((a,b)=>b[sort]-a[sort]);
+const container=document.getElementById("courses");
+container.innerHTML="";
+data.forEach(c=>{
+container.innerHTML+=`
+<div class="card">
+<h3>${c.title}
+${c.recommended?'<span class="badge">Recommended</span>':''}
+</h3>
+<p style="color:var(--muted);margin-top:.4rem">${c.reason}</p>
+<div class="progress-bar">
+<div class="progress-fill" style="width:${c.progress}%"></div>
+</div>
+</div>`;
+});
+}
+
+async function loadRecommendations(){
+const data=await api("/api/recommendations");
+const container=document.getElementById("recommendations");
+container.innerHTML="";
+data.forEach(r=>{
+container.innerHTML+=`
+<div class="card">
+<h3>${r.title}</h3>
+<p style="margin-top:.6rem;color:var(--muted)">${r.explanation}</p>
+<button class="btn-primary" style="margin-top:1rem">Enroll</button>
+</div>`;
+});
+}
+
+async function loadAttendance(){
+const data=await api("/api/attendance");
+const container=document.getElementById("attendance-list");
+container.innerHTML="";
+data.forEach(a=>{
+container.innerHTML+=`
+<div class="card">
+<h3>${a.course}</h3>
+<div class="progress-bar">
+<div class="progress-fill" style="width:${a.percentage}%"></div>
+</div>
+${a.percentage<75?'<span class="badge">Below 75%</span>':''}
+</div>`;
+});
+document.getElementById("attendance-overall").textContent=data.overall||"—";
+}
+
+async function loadTasks(){
+const data=await api("/api/upcoming-tasks");
+const container=document.getElementById("tasks");
+container.innerHTML="";
+data.forEach(t=>{
+container.innerHTML+=`
+<div class="card">
+<h3>${t.title}</h3>
+<p style="color:var(--muted)">${t.course}</p>
+<p>Due: ${t.due_date}</p>
+<span class="badge">${t.urgency}</span>
+</div>`;
+});
+}
+
+async function updatePreferences(){
+const style=document.getElementById("learning-style").value;
+const intensity=document.getElementById("intensity").value;
+const hours=document.getElementById("weekly-target").value;
+await api("/api/profile/update-preferences",{method:"POST",body:JSON.stringify({style,intensity,hours})});
+showToast("Preferences Updated");
+loadCourses();
+loadRecommendations();
+}
+
+async function updateProfile(){
+const name=document.getElementById("edit-name").value;
+const grade=document.getElementById("edit-grade").value;
+const goal=document.getElementById("edit-goal").value;
+const hours=document.getElementById("edit-hours").value;
+await api("/api/profile",{method:"PUT",body:JSON.stringify({name,grade,goal,hours})});
+showToast("Profile Updated");
+loadProfile();
+}
+
+function toggleEdit(){
+const s=document.getElementById("edit-section");
+s.style.display=s.style.display==="none"?"block":"none";
+}
+
+function toggleChat(){
+const modal=document.getElementById("chat-modal");
+modal.style.display=modal.style.display==="flex"?"none":"flex";
+}
+
+async function sendChat(){
+const msg=document.getElementById("chat-input").value;
+const history=document.getElementById("chat-history");
+history.innerHTML+=`<div><strong>You:</strong> ${msg}</div>`;
+const res=await api("/api/chat",{method:"POST",body:JSON.stringify({message:msg})});
+history.innerHTML+=`<div><strong>AI:</strong> ${res.reply}</div>`;
+history.scrollTop=history.scrollHeight;
+}
+
+loadProfile();
+loadCourses();
+loadRecommendations();
+loadAttendance();
+loadTasks();
+</script>
+
+</body>
+</html>
