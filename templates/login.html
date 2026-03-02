@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign In – LearnPath</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:#0f0e0c;
+  --cream:#f5f0e8;
+  --gold:#c8973a;
+  --rust:#c05a2a;
+  --card:#faf7f2;
+  --border:#d6cfc2;
+  --muted:#6b6456;
+}
+
+body {
+  background: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:2rem;
+}
+
+.container {
+  width:100%;
+  max-width:420px;
+}
+
+.logo {
+  text-align:center;
+  font-family:'Fraunces', serif;
+  font-size:1.2rem;
+  color:var(--gold);
+  margin-bottom:2rem;
+  text-decoration:none;
+  display:block;
+}
+
+.card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:2rem;
+  box-shadow:0 8px 40px rgba(0,0,0,0.05);
+}
+
+h1 {
+  font-family:'Fraunces', serif;
+  margin-bottom:1rem;
+  text-align:center;
+}
+
+.field {
+  margin-bottom:1.2rem;
+}
+
+label {
+  display:block;
+  font-size:.75rem;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:.4rem;
+}
+
+input {
+  width:100%;
+  padding:.8rem 1rem;
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  font-size:.95rem;
+}
+
+input:focus {
+  outline:none;
+  border-color:var(--gold);
+}
+
+button {
+  width:100%;
+  padding:1rem;
+  background:var(--ink);
+  color:white;
+  border:none;
+  border-radius:10px;
+  font-family:'Fraunces', serif;
+  font-size:1rem;
+  cursor:pointer;
+  transition:.2s;
+}
+
+button:hover {
+  background:#2a2520;
+}
+
+.footer-text {
+  text-align:center;
+  margin-top:1.2rem;
+  font-size:.85rem;
+}
+
+.footer-text a {
+  color:var(--rust);
+  text-decoration:none;
+}
+
+.error-msg {
+  color:var(--rust);
+  font-size:.85rem;
+  margin-bottom:1rem;
+  text-align:center;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <a href="index.html" class="logo">LearnPath</a>
+
+  <div class="card">
+    <h1>Sign In</h1>
+
+    <div id="error" class="error-msg"></div>
+
+    <form id="login-form">
+
+      <div class="field">
+        <label>Username</label>
+        <input type="text" id="username" required />
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="password" required />
+      </div>
+
+      <button type="submit">Sign In</button>
+
+    </form>
+
+    <div class="footer-text">
+      Don’t have an account?
+      <a href="register.html">Register</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+document.getElementById("login-form").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  const errorDiv = document.getElementById("error");
+
+  errorDiv.style.display = "none";
+
+  try {
+    const response = await fetch("https://learnpath-backend-esqg.onrender.com/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    if (!response.ok) {
+      errorDiv.textContent = "Invalid username or password.";
+      errorDiv.style.display = "block";
+      return;
+    }
+
+    const data = await response.json();
+
+    localStorage.setItem("token", data.access_token);
+    localStorage.setItem("username", username);
+
+    // Redirect based on role (if backend sends role)
+    if (data.role === "admin") {
+      window.location.href = "admin.html";
+    } else {
+      window.location.href = "index.html";
+    }
+
+  } catch (err) {
+    errorDiv.textContent = "Server error. Try again later.";
+    errorDiv.style.display = "block";
+  }
+});
+</script>
+
+</body>
+</html>
