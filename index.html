@@ -770,11 +770,13 @@ document.getElementById("recommend-form").addEventListener("submit", async funct
       body: JSON.stringify({ name, grade, subject, goal, style })
     });
 
-    if (!response.ok) {
-      alert("Session expired. Please login again.");
-      window.location.href = "login.html";
-      return;
-    }
+   if (response.status === 401) {
+  alert("Session expired. Please login again.");
+  localStorage.removeItem("token");
+  window.location.href = "login.html";
+  return;
+}
+
 
     const data = await response.json();
 
