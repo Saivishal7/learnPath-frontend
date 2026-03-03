@@ -143,16 +143,17 @@
   /* ════════════════════════════════════════
      MAIN CONTENT — two-column layout
   ════════════════════════════════════════ */
-  .main {
-    flex: 1;
-    width: 100%; max-width: 1200px;
-    margin: 0 auto;
-    padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 3.5rem);
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: clamp(2rem, 4vw, 4rem);
-    align-items: start;
-  }
+ .main {
+  flex: 1;
+  width: 100%;
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 3.5rem);
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: stretch; /* IMPORTANT */
+}
 
   /* ════════════════════════════════════════
      FORM CARD (left / main column)
@@ -261,10 +262,16 @@
   .sidebar { display: flex; flex-direction: column; gap: 1.2rem; }
 
   .side-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 18px; padding: 1.5rem 1.6rem;
-    box-shadow: 0 4px 20px rgba(15,14,12,.05);
-  }
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.5rem 1.6rem;
+  box-shadow: 0 4px 20px rgba(15,14,12,.05);
+  
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
   .side-card-title {
     font-family: 'Fraunces', serif; font-size: .9rem; font-weight: 700;
@@ -499,6 +506,30 @@
   20%{opacity:1;}
   100%{opacity:.2;}
 }
+.main {
+  align-items: stretch;   /* change from start to stretch */
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.side-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#chat-box {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #fff;
+}
 
 
 
@@ -666,14 +697,7 @@
       Chat with our AI to build your personalized learning path.
     </div>
 
-    <div id="chat-box" style="
-      height: 350px;
-      overflow-y: auto;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px;
-      margin-bottom: 10px;
-      background: #fff;">
+    <div id="chat-box">
     </div>
 
     <div style="display:flex; gap:8px;">
@@ -685,7 +709,7 @@
       </button>
     </div>
   </div>
-</aside>
+
 
       <!-- Quote accent -->
       <div class="accent-card">
