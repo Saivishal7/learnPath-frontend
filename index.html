@@ -573,64 +573,33 @@
 
 
     <!-- ── Right: Sidebar ── -->
-    <aside class="sidebar">
+<aside class="sidebar">
+  <div class="side-card">
+    <div class="side-card-title">AI Learning Assistant</div>
+    <div class="side-card-sub">
+      Chat with our AI to build your personalized learning path.
+    </div>
 
-      <!-- What you'll get -->
-      <div class="side-card">
-        <div class="side-card-title">What you'll receive</div>
-        <div class="side-card-sub">Instantly generated for your profile.</div>
-        <ul class="feature-list">
-          <li class="feature-item">
-            <div class="feature-icon fi-gold">📚</div>
-            <div class="feature-item-text">
-              <strong>Course Recommendations</strong>
-              <span>3 AI-matched courses tailored to your weak subject and learning style.</span>
-            </div>
-          </li>
-          <li class="feature-item">
-            <div class="feature-icon fi-rust">📅</div>
-            <div class="feature-item-text">
-              <strong>Weekly Timetable</strong>
-              <span>A 7-day study schedule built around your goal and style.</span>
-            </div>
-          </li>
-          <li class="feature-item">
-            <div class="feature-icon fi-sage">📈</div>
-            <div class="feature-item-text">
-              <strong>6-Week Study Plan</strong>
-              <span>Step-by-step weekly milestones to keep you on track.</span>
-            </div>
-          </li>
-        </ul>
-      </div>
+    <div id="chat-box" style="
+      height: 350px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #fff;">
+    </div>
 
-      <!-- How it works -->
-      <div class="side-card">
-        <div class="side-card-title">How it works</div>
-        <div class="steps">
-          <div class="step">
-            <div class="step-num">1</div>
-            <div class="step-text">
-              <strong>Tell us about yourself</strong>
-              <span>Enter your name, grade, subject, and goal.</span>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <div class="step-text">
-              <strong>AI builds your plan</strong>
-              <span>Our engine matches courses and creates your timetable.</span>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <div class="step-text">
-              <strong>Track your progress</strong>
-              <span>Log study sessions and watch your scores improve.</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div style="display:flex; gap:8px;">
+      <input type="text" id="chat-input" placeholder="Ask something..."
+        style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--border);">
+      <button onclick="sendChat()"
+        style="padding:8px 12px; border-radius:8px; border:none; background:var(--ink); color:var(--cream); cursor:pointer;">
+        Send
+      </button>
+    </div>
+  </div>
+</aside>
 
       <!-- Quote accent -->
       <div class="accent-card">
@@ -710,6 +679,90 @@ document.getElementById("recommend-form").addEventListener("submit", async funct
     alert("Something went wrong.");
   }
 });
+async function sendChat() {
+  const input = document.getElementById("chat-input");
+  const message = input.value;
+
+  if (!message) return;
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    appendMessage("Please login first.", "bot");
+    window.location.href = "login.html";
+    return;
+  }
+
+  appendMessage(message, "user");
+  input.value = "";
+
+
+  
+  try {
+    const response = await fetch("https://learnpath-backend-esqg.onrender.com/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({ message })
+    });
+    
+    if (!response.ok) {
+  appendMessage("Session expired. Please login again.", "bot");
+  localStorage.removeItem("token");
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 1500);
+  return;
+}
+
+const data = await response.json();
+
+    if (data.type === "recommendation") {
+      appendMessage(formatRecommendation(data.data), "bot");
+    } else {
+      appendMessage(data.message, "bot");
+    }
+
+  } catch (err) {
+    appendMessage("Something went wrong.", "bot");
+  }
+}
+
+function appendMessage(text, sender) {
+  const chatBox = document.getElementById("chat-box");
+  const div = document.createElement("div");
+
+  div.style.margin = "6px 0";
+  div.style.padding = "8px 10px";
+  div.style.borderRadius = "10px";
+  div.style.fontSize = "0.85rem";
+
+  if (sender === "user") {
+    div.style.background = "var(--gold)";
+    div.style.color = "white";
+    div.style.textAlign = "right";
+  } else {
+    div.style.background = "var(--cream-dark)";
+    div.style.color = "var(--ink)";
+  }
+
+  div.innerText = text;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function formatRecommendation(data) {
+  let output = "🎯 Recommended Courses:\n\n";
+
+  data.recommended_courses.forEach(course => {
+    output += `${course.title}\nDifficulty: ${course.difficulty}\nPriority: ${course.priority}\nDuration: ${course.estimated_time_weeks} weeks\n\n`;
+  });
+
+  output += "Why?\n" + data.reasoning;
+
+  return output;
+}
 </script>
 </body>
 </html>
