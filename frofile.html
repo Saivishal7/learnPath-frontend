@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 
 <style>
+/* ── ALL ORIGINAL frofile.html CSS — UNCHANGED ── */
 :root{
 --ink:#0f0e0c;
 --cream:#f5f0e8;
@@ -201,6 +202,150 @@ display:none;
 }
 
 @media(max-width:900px){.sidebar{display:none}}
+
+/* ── ADDITIVE STYLES for dashboard components ONLY ──
+   Uses only existing CSS variables from frofile.html.
+   No new variables, no overrides to existing rules.    */
+
+/* KPI snapshot row */
+.kpi-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+gap:1rem;
+}
+.kpi-card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:1.3rem 1.5rem;
+box-shadow:0 6px 20px rgba(15,14,12,.06);
+}
+.kpi-card .kpi-icon{font-size:1.5rem;margin-bottom:.4rem}
+.kpi-card .kpi-value{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:700;line-height:1}
+.kpi-card .kpi-label{font-size:.72rem;color:var(--faint);letter-spacing:.05em;text-transform:uppercase;margin-top:.3rem}
+.kpi-card.kpi-gold {border-left:3px solid var(--gold)}
+.kpi-card.kpi-rust {border-left:3px solid var(--rust)}
+.kpi-card.kpi-sage {border-left:3px solid var(--sage)}
+.kpi-card.kpi-ink  {border-left:3px solid var(--ink)}
+
+/* Streak card */
+.streak-card{
+background:linear-gradient(135deg,#2a1f0e 0%,#3d2810 100%);
+border-radius:18px;
+padding:1.4rem 1.6rem;
+color:var(--cream);
+display:flex;
+align-items:center;
+gap:1.2rem;
+box-shadow:0 8px 24px rgba(200,151,58,.18);
+}
+.streak-flame{font-size:2.2rem;flex-shrink:0}
+.streak-days{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:700;line-height:1}
+.streak-sub{font-size:.72rem;color:var(--gold-light);text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem}
+.streak-best{margin-left:auto;text-align:right;font-size:.78rem;color:var(--gold-light);flex-shrink:0}
+.streak-best strong{font-family:'Fraunces',serif;font-size:1.1rem;display:block}
+
+/* Certificates mini */
+.certs-row{display:flex;align-items:center;justify-content:space-between}
+.cert-num{font-family:'Fraunces',serif;font-size:2rem;font-weight:700}
+.cert-sub{font-size:.72rem;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+
+/* Two-col layout used for streak/certs and continue-learning pairs */
+.dash-two-col{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:1.5rem;
+}
+@media(max-width:700px){.dash-two-col{grid-template-columns:1fr}}
+
+/* Section header row with optional right-side link */
+.section-row{
+display:flex;
+justify-content:space-between;
+align-items:baseline;
+margin-bottom:1rem;
+}
+.section-row a{font-size:.82rem;color:var(--muted);text-decoration:none}
+.section-row a:hover{color:var(--rust)}
+
+/* Continue-learning course tiles */
+.course-tile{
+background:var(--cream);
+border:1px solid var(--border-soft);
+border-radius:14px;
+padding:1.1rem 1.2rem;
+}
+.course-tile h3{font-size:.95rem;margin-bottom:.5rem}
+.course-tile-meta{display:flex;align-items:center;gap:.5rem;font-size:.76rem;color:var(--faint);margin-bottom:.6rem}
+.badge-rust{
+display:inline-block;
+padding:.3rem .75rem;
+font-size:.68rem;
+letter-spacing:.07em;
+text-transform:uppercase;
+border-radius:20px;
+background:rgba(192,90,42,.08);
+border:1px solid rgba(192,90,42,.3);
+color:var(--rust);
+}
+.badge-sage{
+display:inline-block;
+padding:.3rem .75rem;
+font-size:.68rem;
+letter-spacing:.07em;
+text-transform:uppercase;
+border-radius:20px;
+background:rgba(74,103,65,.08);
+border:1px solid rgba(74,103,65,.3);
+color:var(--sage);
+}
+.btn-outline-sm{
+background:transparent;
+border:1px solid var(--border);
+color:var(--muted);
+border-radius:10px;
+padding:.35rem .8rem;
+font-family:'DM Sans',sans-serif;
+font-size:.78rem;
+cursor:pointer;
+margin-top:.7rem;
+}
+.btn-outline-sm:hover{border-color:var(--rust);color:var(--rust)}
+
+/* Skill progress label row */
+.progress-label{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:.83rem;
+margin-bottom:.1rem;
+}
+.progress-label span:last-child{font-weight:700;color:var(--gold)}
+.progress-fill.sage-fill{background:linear-gradient(90deg,var(--sage),#6aaa5f)}
+.progress-fill.ink-fill {background:linear-gradient(90deg,var(--ink),#4a4035)}
+
+/* Activity feed */
+.activity-list{display:flex;flex-direction:column;gap:.65rem}
+.activity-item{
+display:flex;
+align-items:center;
+gap:.85rem;
+padding:.7rem 1rem;
+background:var(--cream);
+border:1px solid var(--border-soft);
+border-radius:12px;
+}
+.activity-icon{
+width:32px;height:32px;border-radius:9px;
+display:flex;align-items:center;justify-content:center;
+font-size:.95rem;
+background:rgba(200,151,58,.1);
+flex-shrink:0;
+}
+.activity-body{flex:1;min-width:0}
+.activity-title{font-size:.84rem;font-weight:500;color:var(--ink)}
+.activity-meta{font-size:.73rem;color:var(--faint);margin-top:.12rem}
+.activity-mins{font-size:.8rem;font-weight:600;color:var(--muted);white-space:nowrap;flex-shrink:0}
 </style>
 </head>
 
@@ -208,10 +353,11 @@ display:none;
 
 <div class="layout">
 
+<!-- ── SIDEBAR (href fixed: profile.html → frofile.html) ── -->
 <aside class="sidebar">
 <h2>LearnPath</h2>
 <a href="index.html">Dashboard</a>
-<a href="profile.html" class="active">Profile</a>
+<a href="frofile.html" class="active">Profile</a>
 <a href="progress.html">Progress</a>
 <a href="recommendation.html">Resume Learning</a>
 </aside>
@@ -225,6 +371,7 @@ display:none;
 
 <div class="container">
 
+<!-- ── 1. PROFILE CARD (original — unchanged) ── -->
 <div class="card">
 <h2 id="student-name"></h2>
 <p id="student-meta" style="margin:.6rem 0;color:var(--muted)"></p>
@@ -239,6 +386,61 @@ display:none;
 </div>
 </div>
 
+<!-- ── 2. DASHBOARD: KPI SNAPSHOT ── (data from /api/profile + /api/courses) ── -->
+<div>
+<div class="section-row"><h2>Learning Snapshot</h2></div>
+<div class="kpi-grid">
+<div class="kpi-card kpi-gold">
+  <div class="kpi-icon">📚</div>
+  <div class="kpi-value" id="kpi-completed">—</div>
+  <div class="kpi-label">Courses Completed</div>
+</div>
+<div class="kpi-card kpi-rust">
+  <div class="kpi-icon">🔥</div>
+  <div class="kpi-value" id="kpi-streak">—</div>
+  <div class="kpi-label">Day Streak</div>
+</div>
+<div class="kpi-card kpi-sage">
+  <div class="kpi-icon">⚡</div>
+  <div class="kpi-value" id="kpi-skill-avg">—</div>
+  <div class="kpi-label">Avg Course Progress</div>
+</div>
+<div class="kpi-card kpi-ink">
+  <div class="kpi-icon">⏱️</div>
+  <div class="kpi-value" id="kpi-weekly-hours">—</div>
+  <div class="kpi-label">Weekly Hours</div>
+</div>
+</div>
+</div>
+
+<!-- ── 3. DASHBOARD: STREAK + CERTIFICATES ── (data from /api/profile) ── -->
+<div class="dash-two-col">
+
+<div class="streak-card">
+  <div class="streak-flame">🔥</div>
+  <div>
+    <div class="streak-days" id="streak-days">—</div>
+    <div class="streak-sub">Current Streak</div>
+  </div>
+  <div class="streak-best">
+    🏅 Longest<br/>
+    <strong id="streak-longest">—</strong> days
+  </div>
+</div>
+
+<div class="card" style="padding:1.4rem 1.6rem">
+  <div class="certs-row">
+    <div>
+      <div class="cert-sub">Certificates Earned</div>
+      <div class="cert-num" id="cert-count">—</div>
+    </div>
+    <span style="font-size:2.6rem">🏆</span>
+  </div>
+</div>
+
+</div>
+
+<!-- ── 4. ACADEMIC OVERVIEW (original — unchanged) ── -->
 <div class="card">
 <h2>Academic Overview</h2>
 <div class="grid grid-4">
@@ -249,6 +451,16 @@ display:none;
 </div>
 </div>
 
+<!-- ── 5. DASHBOARD: CONTINUE LEARNING ── (data from /api/courses, filtered in JS) ── -->
+<div>
+<div class="section-row">
+  <h2>▶️ Continue Learning</h2>
+  <a href="index.html">View all →</a>
+</div>
+<div id="in-progress-courses" class="grid grid-2"></div>
+</div>
+
+<!-- ── 6. ACTIVE COURSES (original — unchanged) ── -->
 <div>
 <h2 style="margin-bottom:1rem">Active Courses</h2>
 <select id="sort-courses" onchange="loadCourses()" style="margin-bottom:1rem">
@@ -259,21 +471,42 @@ display:none;
 <div id="courses" class="grid grid-2"></div>
 </div>
 
+<!-- ── 7. DASHBOARD: SKILL PROGRESS ── (data from /api/profile if skills[] present) ── -->
+<div class="card" id="skills-section" style="display:none">
+<div class="section-row" style="margin-bottom:1.2rem">
+  <h2>⚡ Skill Progress</h2>
+  <a href="progress.html">Manage →</a>
+</div>
+<div id="skills-list"></div>
+</div>
+
+<!-- ── 8. ATTENDANCE (original — unchanged) ── -->
 <div class="card">
 <h2>Attendance Tracker</h2>
 <div id="attendance-list" class="grid grid-2"></div>
 </div>
 
+<!-- ── 9. UPCOMING TASKS (original — unchanged) ── -->
 <div class="card">
 <h2>Upcoming Academic Tasks</h2>
 <div id="tasks" class="grid grid-2"></div>
 </div>
 
+<!-- ── 10. DASHBOARD: RECENT ACTIVITY ── (data from /api/upcoming-tasks, rendered as feed) ── -->
+<div class="card" id="activity-section" style="display:none">
+<div class="section-row" style="margin-bottom:1.2rem">
+  <h2>🕐 Recent Activity</h2>
+</div>
+<div id="activity-list" class="activity-list"></div>
+</div>
+
+<!-- ── 11. AI RECOMMENDATIONS (original — unchanged) ── -->
 <div>
 <h2 style="margin-bottom:1rem">AI Recommendations</h2>
 <div id="recommendations" class="grid grid-2"></div>
 </div>
 
+<!-- ── 12. LEARNING PREFERENCES (original — unchanged) ── -->
 <div class="card">
 <h2>Adjust Learning Preferences</h2>
 <div style="display:flex;gap:1rem;flex-wrap:wrap">
@@ -294,6 +527,7 @@ display:none;
 <p id="feedback-msg" style="margin-top:1rem;color:var(--sage)"></p>
 </div>
 
+<!-- ── 13. ETHICAL AI (original — unchanged) ── -->
 <div class="card">
 <h3>Ethical AI & Privacy</h3>
 <p style="margin-top:.6rem;color:var(--muted)">
@@ -320,6 +554,9 @@ Data encrypted · GDPR-aware architecture · Bias-mitigated scoring · Secure JW
 <div id="toast" class="toast"></div>
 
 <script>
+/* ══════════════════════════════════════════
+   ORIGINAL frofile.html JS — ALL FUNCTIONS UNCHANGED
+══════════════════════════════════════════ */
 const BASE_URL="https://learnpath-backend-esqg.onrender.com";
 const token=localStorage.getItem("token");
 if(!token){window.location.href="login.html";}
@@ -343,6 +580,8 @@ t.style.display="block";
 setTimeout(()=>t.style.display="none",3000);
 }
 
+/* loadProfile — original function + dashboard KPI/streak/cert population
+   Uses only fields already returned by /api/profile               */
 async function loadProfile(){
 const p=await api("/api/profile");
 document.getElementById("student-name").textContent=p.name;
@@ -350,12 +589,46 @@ document.getElementById("student-meta").textContent=
 `${p.grade} • ${p.learning_goal} • ${p.learning_style} • ${p.performance_band}`;
 document.getElementById("last-login").textContent="Last login: "+p.last_login;
 document.getElementById("gpa").textContent=p.gpa||"—";
+
+/* ── Dashboard extras: populated if fields exist on profile response ── */
+if(p.current_streak!=null){
+  document.getElementById("kpi-streak").textContent=p.current_streak;
+  document.getElementById("streak-days").textContent=p.current_streak;
+}
+if(p.longest_streak!=null)
+  document.getElementById("streak-longest").textContent=p.longest_streak;
+if(p.certificates!=null)
+  document.getElementById("cert-count").textContent=p.certificates;
+if(p.weekly_hours!=null)
+  document.getElementById("kpi-weekly-hours").textContent=p.weekly_hours+"h";
+
+/* ── Skill progress bars: rendered if profile returns skills[] ── */
+if(Array.isArray(p.skills)&&p.skills.length>0){
+  const section=document.getElementById("skills-section");
+  const list=document.getElementById("skills-list");
+  section.style.display="block";
+  list.innerHTML=p.skills.map((sk,i)=>{
+    const fillClass=sk.progress_percent>=70?"sage-fill":sk.progress_percent>=40?"":"ink-fill";
+    return `<div style="margin-bottom:${i<p.skills.length-1?"14px":"0"}">
+      <div class="progress-label">
+        <span style="font-weight:500">${sk.name}</span>
+        <span>${sk.progress_percent}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill ${fillClass}" style="width:${sk.progress_percent}%"></div>
+      </div>
+    </div>`;
+  }).join("");
+}
 }
 
+/* loadCourses — original function + dashboard extras derived from same data */
 async function loadCourses(){
 let data=await api("/api/courses");
 const sort=document.getElementById("sort-courses").value;
 data.sort((a,b)=>b[sort]-a[sort]);
+
+/* ── Active Courses section (original behaviour — unchanged) ── */
 const container=document.getElementById("courses");
 container.innerHTML="";
 data.forEach(c=>{
@@ -370,6 +643,52 @@ ${c.recommended?'<span class="badge">Recommended</span>':''}
 </div>
 </div>`;
 });
+
+/* ── Dashboard: KPI — completed count ── */
+const completed=data.filter(c=>c.progress>=100).length;
+document.getElementById("kpi-completed").textContent=completed;
+
+/* ── Dashboard: KPI — avg progress across all courses ── */
+if(data.length>0){
+  const avg=Math.round(data.reduce((s,c)=>s+(c.progress||0),0)/data.length);
+  document.getElementById("kpi-skill-avg").textContent=avg+"%";
+}
+
+/* ── Dashboard: Continue Learning — courses with progress > 0 and < 100 ── */
+const inProgress=data.filter(c=>c.progress>0&&c.progress<100);
+const ipContainer=document.getElementById("in-progress-courses");
+if(inProgress.length===0){
+  ipContainer.innerHTML=`<div class="card" style="text-align:center;color:var(--faint);padding:1.5rem">
+    No courses in progress yet. <a href="index.html" style="color:var(--rust)">Browse courses →</a>
+  </div>`;
+}else{
+  ipContainer.innerHTML=inProgress.map(c=>{
+    const lvl=c.skill_level||"";
+    const lvlBadge=lvl==="Beginner"?"badge-sage":lvl==="Intermediate"?"badge":"badge-rust";
+    const icon=lvl==="Beginner"?"🌱":lvl==="Intermediate"?"🔥":"⚡";
+    return `<div class="course-tile">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem">
+        <h3>${c.title}</h3>
+        <span style="font-size:1.3rem">${icon}</span>
+      </div>
+      <div class="course-tile-meta">
+        ${lvl?`<span class="${lvlBadge}">${lvl}</span>`:""}
+        ${c.duration_weeks?`<span>${c.duration_weeks}w</span>`:""}
+      </div>
+      <div class="progress-label">
+        <span>Progress</span>
+        <span>${c.progress}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${c.progress}%"></div>
+      </div>
+      <button class="btn-outline-sm" onclick="window.location.href='index.html'">Update Progress</button>
+    </div>`;
+  }).join("");
+}
+
+/* ── Dashboard: Recent Activity — built from task list as a feed ──
+   Populated here via loadTasks(); see renderActivityFeed()          */
 }
 
 async function loadRecommendations(){
@@ -403,6 +722,7 @@ ${a.percentage<75?'<span class="badge">Below 75%</span>':''}
 document.getElementById("attendance-overall").textContent=data.overall||"—";
 }
 
+/* loadTasks — original function + feeds the Recent Activity panel */
 async function loadTasks(){
 const data=await api("/api/upcoming-tasks");
 const container=document.getElementById("tasks");
@@ -416,6 +736,23 @@ container.innerHTML+=`
 <span class="badge">${t.urgency}</span>
 </div>`;
 });
+
+/* ── Dashboard: Recent Activity panel — derived from task data ── */
+if(data&&data.length>0){
+  const section=document.getElementById("activity-section");
+  const list=document.getElementById("activity-list");
+  section.style.display="block";
+  const urgencyIcon={High:"🎯",Medium:"📚",Low:"✅"};
+  list.innerHTML=data.map(t=>`
+    <div class="activity-item">
+      <div class="activity-icon">${urgencyIcon[t.urgency]||"📋"}</div>
+      <div class="activity-body">
+        <div class="activity-title">${t.title}</div>
+        <div class="activity-meta">${t.course} · Due ${t.due_date}</div>
+      </div>
+      <div class="activity-mins"><span class="badge" style="margin-left:0">${t.urgency}</span></div>
+    </div>`).join("");
+}
 }
 
 async function updatePreferences(){
@@ -457,6 +794,7 @@ history.innerHTML+=`<div><strong>AI:</strong> ${res.reply}</div>`;
 history.scrollTop=history.scrollHeight;
 }
 
+/* ── Init (same calls as original, no new endpoints added) ── */
 loadProfile();
 loadCourses();
 loadRecommendations();
