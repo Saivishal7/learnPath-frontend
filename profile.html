@@ -199,6 +199,22 @@ border-radius:12px;
 border:1px solid var(--gold);
 display:none;
 }
+.form-field{
+display:flex;
+flex-direction:column;
+margin-bottom:.8rem;
+}
+
+.form-field label{
+font-size:.75rem;
+color:var(--muted);
+margin-bottom:.2rem;
+}
+
+.auth-sub{
+font-size:.9rem;
+color:var(--muted);
+}
 
 @media(max-width:900px){.sidebar{display:none}}
 </style>
@@ -222,87 +238,200 @@ display:none;
 <h1>Student Profile</h1>
 <small id="last-login"></small>
 </div>
-
 <div class="container">
 
+<!-- PROFILE CARD -->
 <div class="card">
-<h2 id="student-name"></h2>
-<p id="student-meta" style="margin:.6rem 0;color:var(--muted)"></p>
-<span class="badge">AI Optimized</span>
-<button class="btn-primary" style="float:right" onclick="toggleEdit()">Edit Profile</button>
-<div id="edit-section" style="display:none;margin-top:1rem">
-<input id="edit-name" placeholder="Name"/>
-<input id="edit-grade" placeholder="Grade"/>
-<input id="edit-goal" placeholder="Learning Goal"/>
-<input id="edit-hours" placeholder="Weekly Hours"/>
-<button class="btn-primary" onclick="updateProfile()">Save</button>
-</div>
+
+<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem">
+<span style="font-size:1.2rem">🚀</span>
+<h2 style="margin:0">LearnPath Profile</h2>
 </div>
 
-<div class="card">
-<h2>Academic Overview</h2>
-<div class="grid grid-4">
-<div class="stat"><span>GPA</span><strong id="gpa">—</strong></div>
-<div class="stat"><span>Attendance %</span><strong id="attendance-overall">—</strong></div>
-<div class="stat"><span>Assignments</span><strong id="assignment-rate">—</strong></div>
-<div class="stat"><span>Quiz Accuracy</span><strong id="quiz-rate">—</strong></div>
-</div>
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+
+<div id="avatar-circle"
+style="
+width:50px;
+height:50px;
+border-radius:50%;
+background:#c8973a;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:600;
+font-size:18px;
+font-family:'Fraunces',serif;
+">
+A
 </div>
 
 <div>
+<h2 id="student-name"></h2>
+<p id="student-meta" class="auth-sub"></p>
+</div>
+
+</div>
+
+<span class="badge">AI Optimized</span>
+
+<button class="btn-primary" style="float:right" onclick="toggleEdit()">Edit Profile</button>
+
+<!-- EDIT PROFILE -->
+<div id="edit-section" style="display:none;margin-top:1.2rem">
+
+<div class="form-field">
+<label>Name</label>
+<input id="edit-name" placeholder="Your full name"/>
+</div>
+
+<div class="form-field">
+<label>Grade</label>
+<input id="edit-grade" placeholder="Your grade"/>
+</div>
+
+<div class="form-field">
+<label>Learning Goal</label>
+<input id="edit-goal" placeholder="What do you want to learn?"/>
+</div>
+
+<div class="form-field">
+<label>Weekly Study Hours</label>
+<input id="edit-hours" placeholder="Hours per week"/>
+</div>
+
+<button class="btn-primary" style="margin-top:.8rem" onclick="updateProfile()">
+Save Changes →
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ACADEMIC OVERVIEW -->
+<div class="card">
+
+<h2>Academic Overview</h2>
+
+<div class="grid grid-4">
+
+<div class="stat">
+<span>GPA</span>
+<strong id="gpa">—</strong>
+</div>
+
+<div class="stat">
+<span>Attendance %</span>
+<strong id="attendance-overall">—</strong>
+</div>
+
+<div class="stat">
+<span>Assignments</span>
+<strong id="assignment-rate">—</strong>
+</div>
+
+<div class="stat">
+<span>Quiz Accuracy</span>
+<strong id="quiz-rate">—</strong>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ACTIVE COURSES -->
+<div>
+
 <h2 style="margin-bottom:1rem">Active Courses</h2>
+
 <select id="sort-courses" onchange="loadCourses()" style="margin-bottom:1rem">
 <option value="priority">Sort by Priority</option>
 <option value="difficulty">Sort by Difficulty</option>
 <option value="progress">Sort by Progress</option>
 </select>
+
 <div id="courses" class="grid grid-2"></div>
+
 </div>
 
+
+<!-- ATTENDANCE -->
 <div class="card">
+
 <h2>Attendance Tracker</h2>
+
 <div id="attendance-list" class="grid grid-2"></div>
+
 </div>
 
+
+<!-- UPCOMING TASKS -->
 <div class="card">
+
 <h2>Upcoming Academic Tasks</h2>
+
 <div id="tasks" class="grid grid-2"></div>
+
 </div>
 
+
+<!-- AI RECOMMENDATIONS -->
 <div>
+
 <h2 style="margin-bottom:1rem">AI Recommendations</h2>
+
 <div id="recommendations" class="grid grid-2"></div>
+
 </div>
 
+
+<!-- LEARNING PREFERENCES -->
 <div class="card">
+
 <h2>Adjust Learning Preferences</h2>
+
 <div style="display:flex;gap:1rem;flex-wrap:wrap">
+
 <select id="learning-style">
 <option>Visual</option>
 <option>Auditory</option>
 <option>Reading</option>
 <option>Kinesthetic</option>
 </select>
+
 <select id="intensity">
 <option>Low</option>
 <option>Medium</option>
 <option>High</option>
 </select>
+
 <input id="weekly-target" placeholder="Weekly Hours"/>
-<button class="btn-primary" onclick="updatePreferences()">Update</button>
-</div>
-<p id="feedback-msg" style="margin-top:1rem;color:var(--sage)"></p>
+
+<button class="btn-primary" onclick="updatePreferences()">
+Update
+</button>
+
 </div>
 
+<p id="feedback-msg" style="margin-top:1rem;color:var(--sage)"></p>
+
+</div>
+
+
+<!-- PRIVACY -->
 <div class="card">
+
 <h3>Ethical AI & Privacy</h3>
+
 <p style="margin-top:.6rem;color:var(--muted)">
 Data encrypted · GDPR-aware architecture · Bias-mitigated scoring · Secure JWT authentication.
 </p>
-</div>
 
 </div>
-</div>
+
 </div>
 
 <div class="chat-btn" onclick="toggleChat()">💬</div>
@@ -344,12 +473,22 @@ setTimeout(()=>t.style.display="none",3000);
 }
 
 async function loadProfile(){
-const p=await api("/api/profile");
-document.getElementById("student-name").textContent=p.name;
-document.getElementById("student-meta").textContent=
+const p = await api("/api/profile");
+
+document.getElementById("student-name").textContent = p.name;
+
+// Avatar letter
+document.getElementById("avatar-circle").textContent =
+p.name ? p.name.charAt(0).toUpperCase() : "U";
+
+// Student meta information
+document.getElementById("student-meta").textContent =
 `${p.grade} • ${p.learning_goal} • ${p.learning_style} • ${p.performance_band}`;
-document.getElementById("last-login").textContent="Last login: "+p.last_login;
-document.getElementById("gpa").textContent=p.gpa||"—";
+
+document.getElementById("last-login").textContent =
+"Last login: " + p.last_login;
+
+document.getElementById("gpa").textContent = p.gpa || "—";
 }
 
 async function loadCourses(){
